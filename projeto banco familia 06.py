@@ -1,51 +1,52 @@
-saldo = 1000
-# banco familia 06
-print('SEJA BEM VINDO AO BANCO FAMILIA 06')
+# Criar um sistema bancário que simule depósito, saque e extrato.
+
+limite_diario_saque = 500
+extrato = ''
+limite_saque = 3
+saldo = 0
 
 while True:
-    print('1 - Depósito')
-    print('2 - Saldo')
-    print('3 - Saque')
-    print('4 - Emprestimo')
-    print('5 - Suporte')
-    print('6 - Sair')
+    print('1. Depósito')
+    print('2. Saque')
+    print('3. Extrato')
+    print('4. Sair')
 
-    opção = int(input('ESCOLHA A OPÇÃO DESEJADA:'))
-    
-    if opção == 1:
-        print('Depósito')
-        depósito = float(input('valor do depósito:'))
-        saldo += depósito
-        print(f'depósito no valor de R$ {depósito} efetuado com sucesso')
-    
-    elif opção == 2:
-        print(f'seu saldo é de R$ {saldo}')
-    
-    elif opção == 3:
-        print('Saque')
-        saque = float(input('valor do saque:'))
-        if saque <= saldo:
-            saldo -= saque
-            print(f'saque no valor R$ {saque} efetuado com sucesso')
+    opcao = int(input('Digite a opção desejada: '))
+
+    if opcao == 1:
+        valor_deposito = float(input('Digite o valor do depósito: '))
+        if valor_deposito > 0:
+            saldo += valor_deposito
+            extrato += f'Depósito: R$ {valor_deposito:.2f}\n'
+            print('Depósito efetuado com sucesso.')
         else:
-            print('Saldo insuficiente')
+            print('Depósito inválido.')
 
-    elif opção == 4:
-        print('Emprestimo')
-        print('não ha proposta de emprestimo disponivel no momento')
-    
-    elif opção == 5:
-        print('Suporte')
-        print('Para suporte, ligue para 0800-123-456')
-    
-    elif opção == 6:
-        print('obrigado por utilizar o banco familia 06')
+    elif opcao == 2:
+        if limite_saque > 0:
+            valor_saque = float(input('Digite o valor que deseja sacar: '))
+            if valor_saque > 0 and valor_saque <= saldo and valor_saque <= limite_diario_saque:
+                saldo -= valor_saque
+                limite_saque -= 1
+                extrato += f'Saque: R$ {valor_saque:.2f}\n'
+                print('Saque realizado com sucesso.')
+            elif valor_saque > saldo:
+                print('Saldo insuficiente.')
+            elif valor_saque > limite_diario_saque:
+                print('Limite diário de saque excedido.')
+            else:
+                print('Valor de saque inválido.')
+        else:
+            print('Limite de saques diários excedido.')
+
+    elif opcao == 3:
+        print('Extrato:')
+        print(extrato)
+        print(f'Saldo atual: R$ {saldo:.2f}')
+
+    elif opcao == 4:
+        print('Saindo...')
         break
-    
+
     else:
-        print('Opção inválida, por favor tente novamente')
-    
-    realizar_outra = input('gostaria de realizar outra operação? (sim/não): ').strip().lower()
-    if realizar_outra != 'sim':
-        print('OBRIGADO POR UTILIZAR O BANCO FAMILIA 06')
-        break
+        print('Opção inválida.')
